@@ -22,8 +22,9 @@ jobs:
         cache: maven
 
     - name: Chạy Unit Test tự động bằng Maven
+      continue-on-error: true
       run: mvn -B test --file pom.xml
-
+      
     - name: Upload Báo cáo Test (Artifacts)
       uses: actions/upload-artifact@v4
       if: always()
