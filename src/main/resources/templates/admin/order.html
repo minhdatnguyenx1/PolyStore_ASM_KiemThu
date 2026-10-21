@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: dynamic(~{::main})}">
+<head>
+    <title>Quản trị Đơn hàng</title>
+</head>
+<body>
+    <main>
+        <h3 class="mb-4 fw-bold text-danger">QUẢN LÝ ĐƠN HÀNG (ADMIN)</h3>
+        
+        <div class="card shadow-sm mb-5">
+            <div class="card-body">
+                <form method="post" th:object="${item}">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Mã đơn hàng</label>
+                            <input th:field="*{id}" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label fw-bold">Địa chỉ giao hàng (Có thể cập nhật)</label>
+                            <input th:field="*{address}" class="form-control" required>
+                        </div>
+                        
+                        <!-- Giữ lại thông tin bị ẩn để lúc Update không bị null -->
+                        <input type="hidden" th:field="*{account.username}">
+                        <input type="hidden" th:field="*{createDate}">
+                    </div>
+                    
+                    <div class="mt-3">
+                        <button type="submit" formaction="/admin/order/update" class="btn btn-primary me-2">Cập nhật Đơn hàng</button>
+                        <a href="/admin/order/index" class="btn btn-secondary">Làm mới form</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <h5 class="fw-bold mb-3">DANH SÁCH ĐƠN HÀNG</h5>
+        <div class="table-responsive shadow-sm">
+            <table class="table table-bordered table-hover align-middle text-center mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Mã Đơn</th>
+                        <th>Người đặt</th>
+                        <th>Ngày đặt</th>
+                        <th>Địa chỉ giao hàng</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    <tr th:each="o : ${items}">
+                        <td class="fw-bold" th:text="${o.id}"></td>
+                        <td th:text="${o.account.username}"></td>
+                        <td th:text="${#dates.format(o.createDate, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td class="text-start" th:text="${o.address}"></td>
+                        <td>
+                            <a th:href="@{|/admin/order/edit/${o.id}|}" class="btn btn-sm btn-outline-primary">Sửa</a>
+                            <a th:href="@{|/admin/order/delete/${o.id}|}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">Hủy</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

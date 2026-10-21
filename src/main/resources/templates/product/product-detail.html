@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: dynamic(~{::main})}">
+<head>
+    <title>Chi tiết sản phẩm</title>
+</head>
+<body>
+    <main>
+        <div class="row mt-4 mb-5">
+            <!-- Cột hình ảnh sản phẩm -->
+            <div class="col-md-5">
+                <div class="card border-0 shadow-sm p-2 bg-white">
+                    <img th:src="@{|/images/${item.image}|}" class="card-img-top rounded" alt="Ảnh sản phẩm" style="object-fit: cover; width: 100%; max-height: 400px;">
+                </div>
+            </div>
+            
+            <!-- Cột thông tin chi tiết -->
+            <div class="col-md-7">
+                <!-- Thanh điều hướng Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/home/index" class="text-decoration-none">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a th:href="@{|/product/list-by-category/${item.category.id}|}" class="text-decoration-none" th:text="${item.category.name}">Loại hàng</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Chi tiết</li>
+                    </ol>
+                </nav>
+                
+                <h2 class="fw-bold mb-3" th:text="${item.name}">Tên sản phẩm</h2>
+                
+                <h3 class="text-danger fw-bold mb-4" th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></h3>
+                
+                <div class="mb-4">
+                    <p class="mb-2"><span class="fw-bold">Mã sản phẩm: </span> <span th:text="${item.id}"></span></p>
+                    <p class="mb-2"><span class="fw-bold">Tình trạng: </span> 
+                        <span th:if="${item.available}" class="badge bg-success">Còn hàng</span>
+                        <span th:unless="${item.available}" class="badge bg-secondary">Hết hàng</span>
+                    </p>
+                    <p class="mb-2"><span class="fw-bold">Danh mục: </span> <span th:text="${item.category.name}"></span></p>
+                </div>
+                
+                <!-- Nút Thêm vào giỏ -->
+                <div class="d-flex align-items-center mt-4">
+                    <a th:href="@{|/cart/add/${item.id}|}" class="btn btn-dark btn-lg px-5 shadow-sm">
+                        Thêm vào giỏ hàng
+                    </a>
+                </div>
+                
+                <hr class="my-4">
+                
+                <h5 class="fw-bold">Mô tả sản phẩm</h5>
+                <p class="text-muted" style="line-height: 1.8;">
+                    Đây là sản phẩm chính hãng, đảm bảo chất lượng cao nhất cho trải nghiệm của bạn. Sản phẩm được phân phối trực tiếp tại PolyStore và được bảo hành đầy đủ theo chính sách của nhà sản xuất.
+                </p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

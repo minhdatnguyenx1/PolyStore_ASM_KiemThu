@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: dynamic(~{::main})}">
+<head>
+    <title>Đăng nhập</title>
+</head>
+<body>
+    <main class="d-flex justify-content-center">
+        <div class="card shadow-sm mt-4" style="width: 400px;">
+            <div class="card-header bg-dark text-white text-center">
+                <h4 class="mb-0">ĐĂNG NHẬP</h4>
+            </div>
+            <div class="card-body p-4">
+                <!-- Hiển thị thông báo lỗi nếu có -->
+                <div th:if="${param.error}" class="alert alert-danger text-center p-2">
+                    Vui lòng đăng nhập để tiếp tục!
+                </div>
+                <div th:if="${message}" class="alert alert-danger text-center p-2" th:text="${message}"></div>
+
+                <form action="/auth/login" method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tên đăng nhập</label>
+                        <input type="text" name="username" class="form-control" required placeholder="Nhập username (vd: datnm)">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Mật khẩu</label>
+                        <input type="password" name="password" class="form-control" required placeholder="Nhập mật khẩu">
+                    </div>
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-dark">Đăng nhập</button>
+                    </div>
+                </form>
+                
+                <div class="text-center mt-3">
+                    <a href="/account/sign-up" class="text-decoration-none">Chưa có tài khoản? Đăng ký ngay</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

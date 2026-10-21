@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: dynamic(~{::main})}">
+<head>
+    <title>Trang chủ</title>
+</head>
+<body>
+    <main>
+        <h2 class="mb-4 text-center fw-bold">SẢN PHẨM NỔI BẬT</h2>
+        
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+            <!-- Duyệt qua danh sách items được truyền từ ProductController -->
+            <div class="col" th:each="p : ${items}">
+                <div class="card h-100 shadow-sm border-0">
+                    <!-- Ảnh sản phẩm (Cần tạo thư mục src/main/resources/static/images để chứa ảnh) -->
+                    <img th:src="@{|/images/${p.image}|}" class="card-img-top" alt="Ảnh sản phẩm" style="height: 250px; object-fit: cover; background-color: #f8f9fa;">
+                    
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-truncate" th:text="${p.name}">Tên sản phẩm</h5>
+                        <!-- Định dạng tiền tệ VND -->
+                        <p class="card-text text-danger fw-bold fs-5" 
+                           th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></p>
+                    </div>
+                    
+                    <div class="card-footer bg-white border-top-0 pb-3 text-center">
+                        <a th:href="@{|/product/detail/${p.id}|}" class="btn btn-outline-secondary btn-sm me-2">Chi tiết</a>
+                        <a th:href="@{|/cart/add/${p.id}|}" class="btn btn-dark btn-sm">Thêm vào giỏ</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hiển thị thông báo nếu chưa có sản phẩm nào trong DB -->
+            <div class="col-12 text-center text-muted" th:if="${#lists.isEmpty(items)}">
+                <p>Hiện chưa có sản phẩm nào trong kho.</p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

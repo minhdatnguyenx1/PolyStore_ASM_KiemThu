@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/layout :: dynamic(~{::main})}">
+<head>
+    <title>Thanh toán đơn hàng</title>
+</head>
+<body>
+    <main>
+        <div class="row">
+            <div class="col-md-7">
+                <h4 class="fw-bold mb-3">Thông tin giao hàng</h4>
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-body">
+                        <!-- Thông tin người dùng lấy từ Session -->
+                        <div class="mb-3">
+                            <label class="form-label">Người đặt hàng:</label>
+                            <input type="text" class="form-control fw-bold" th:value="${session.user.fullname}" readonly>
+                        </div>
+                        
+                        <form action="/order/checkout" method="post">
+                            <div class="mb-4">
+                                <label class="form-label fw-bold text-primary">Địa chỉ giao hàng chi tiết (*)</label>
+                                <textarea name="address" class="form-control" rows="3" required placeholder="Nhập số nhà, tên đường, phường/xã, quận/huyện..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success w-100 py-2 fs-5">Xác nhận Đặt Hàng</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-5">
+                <h4 class="fw-bold mb-3">Tóm tắt đơn hàng</h4>
+                <div class="card shadow-sm border-0">
+                    <div class="card-body bg-light">
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item bg-light d-flex justify-content-between lh-sm" th:each="item : ${cart.items}">
+                                <div>
+                                    <h6 class="my-0 text-truncate" style="max-width: 200px;" th:text="${item.name}"></h6>
+                                    <small class="text-muted">SL: <span th:text="${item.qty}"></span></small>
+                                </div>
+                                <span class="text-muted" th:text="${#numbers.formatDecimal(item.price * item.qty, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                            </li>
+                        </ul>
+                        <div class="d-flex justify-content-between align-items-center border-top pt-3 mt-3">
+                            <span class="fw-bold fs-5">Tổng cộng:</span>
+                            <strong class="text-danger fs-4" th:text="${#numbers.formatDecimal(cart.amount, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

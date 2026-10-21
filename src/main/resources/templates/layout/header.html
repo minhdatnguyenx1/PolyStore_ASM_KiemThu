@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="nav">
+    <div class="container">
+        <!-- Logo PolyStore -->
+        <a class="navbar-brand" href="/home/index">PolyStore</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="/home/index">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="/cart/view">Giỏ hàng</a></li>
+            </ul>
+            <ul class="navbar-nav">
+                <!-- Hiển thị khi chưa đăng nhập -->
+                <li class="nav-item" th:if="${session.user == null}">
+                    <a class="nav-link btn btn-outline-light btn-sm" href="/auth/login">Đăng nhập</a>
+                </li>
+                <!-- Hiển thị khi đã đăng nhập -->
+                <li class="nav-item dropdown" th:if="${session.user != null}">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" th:text="${session.user.fullname}"></a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="/order/list">Đơn hàng của tôi</a></li>
+                        <li><a class="dropdown-item" href="/account/edit-profile">Cập nhật hồ sơ</a></li>
+                        <li><a class="dropdown-item" th:if="${session.user.admin}" href="/admin/product/index">Trang quản trị</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/auth/logout">Đăng xuất</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
