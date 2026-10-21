@@ -18,12 +18,15 @@ public class LoginAutomationTest {
 
     @BeforeEach
     public void setUp() {
-        // Cấu hình mở trình duyệt Chrome
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
-        driver = new ChromeDriver(options);
         
-        // Mở to toàn màn hình để dễ nhìn
+        // Thêm 3 dòng này để chạy ngầm trên máy chủ GitHub
+        options.addArguments("--headless"); 
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
 

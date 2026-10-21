@@ -18,10 +18,15 @@ public class ProductCrudAutomationTest {
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
+        
+        // Thêm 3 dòng này để chạy ngầm trên máy chủ GitHub
+        options.addArguments("--headless"); 
+        options.addArguments("--disable-gpu");
+        options.addArguments("--no-sandbox");
+        
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
     }
-
     @Test
     public void testCreateProduct() throws InterruptedException {
         // 1. Robot tự động Đăng nhập bằng tài khoản Admin trước
